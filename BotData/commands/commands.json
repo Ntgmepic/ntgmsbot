@@ -1,0 +1,696 @@
+{
+  "command": [
+    {
+      "name": "help",
+      "perms": [],
+      "actions": [
+        {
+          "name": "help menu",
+          "category": "Message",
+          "type": "Send Embed",
+          "fields": [
+            {
+              "name": "nb!help",
+              "value": "Shows this Help Message",
+              "inline": "true"
+            },
+            {
+              "name": "nb!purge",
+              "value": "it deletes however many messages you want (admin perms)",
+              "inline": "true"
+            }
+          ],
+          "messageActionRows": [],
+          "channelname": "${dbsVars.CommandChannel.id}",
+          "color": "9B30D1",
+          "title": "Bot Help",
+          "url": "",
+          "authorname": "NtGm Bot",
+          "authorimageurl": "${dbsVars.CommandAuthor.user.avatarURL}",
+          "authorlink": "",
+          "description": "Thank you <@${dbsVars.CommandAuthor.id}> for using NtGm Bot Help command!",
+          "thumbnail": "",
+          "image": "",
+          "footer": "Support us on Patreon https://www.patreon.com/RBSDev",
+          "timestamp": "false",
+          "savetovariable": "coolhelp",
+          "savetovariabletype": "temp"
+        }
+      ]
+    },
+    {
+      "name": "purge",
+      "perms": [
+        "head admin",
+        "co-owner",
+        "owner"
+      ],
+      "actions": [
+        {
+          "name": "Purge#",
+          "category": "Variable",
+          "type": "Store Value in Variable",
+          "messageActionRows": [],
+          "varname": "purge",
+          "vartype": "Number",
+          "savevartype": "temp",
+          "param": "1"
+        },
+        {
+          "name": "Delete messages",
+          "category": "Channel Action",
+          "type": "Delete All Messages",
+          "messageActionRows": [],
+          "channelname": "${dbsVars.CommandChannel.id}",
+          "msgcount": "${tempVars.purge}"
+        }
+      ]
+    },
+    {
+      "name": "warn",
+      "perms": [
+        "owner",
+        "co-owner",
+        "head admin"
+      ],
+      "actions": [
+        {
+          "name": "get user",
+          "category": "Variable",
+          "type": "Get Mentioned User",
+          "messageActionRows": [],
+          "varname": "warned user",
+          "vartype": "User",
+          "savevartype": "temp"
+        },
+        {
+          "name": "epic",
+          "category": "Variable",
+          "type": "Store Value in Variable",
+          "messageActionRows": [],
+          "varname": "reason",
+          "vartype": "Text",
+          "savevartype": "temp",
+          "param": "0"
+        },
+        {
+          "name": "warnlogs",
+          "category": "User Data",
+          "type": "Edit User Data",
+          "messageActionRows": [],
+          "user": "${tempVars.warned user.id}",
+          "field": "warns",
+          "oper": "+",
+          "value": "1"
+        },
+        {
+          "name": "logs",
+          "category": "Message",
+          "type": "Send Embed",
+          "messageActionRows": [],
+          "channelname": "audit-logs",
+          "color": "1CBBFF",
+          "title": "Warn",
+          "url": "",
+          "authorname": "cool bot",
+          "authorimageurl": "${tempVars.warned user.user.defaultAvatarURL}",
+          "authorlink": "",
+          "description": "The user warned was: <@${tempVars.warned user.id}>\nThe reason was: ${tempVars.reason}\nWarned by: <@${dbsVars.CommandAuthor.id}>",
+          "thumbnail": "${tempVars.warned user.user.avatarURL}",
+          "image": "",
+          "footer": "epic warn system am i right",
+          "timestamp": "BOOL_TRUE@@",
+          "savetovariable": "warnmessage",
+          "savetovariabletype": "temp"
+        },
+        {
+          "name": "has been warned",
+          "category": "Message",
+          "type": "Send Embed",
+          "messageActionRows": [],
+          "channelname": "<@${tempVars.warned user.id}>",
+          "color": "A80000",
+          "title": "<@${tempVars.warned user.id}> has been warned.",
+          "url": "",
+          "authorname": "Egg",
+          "authorimageurl": "",
+          "authorlink": "",
+          "description": "dis person has been warned so suck it.",
+          "thumbnail": "",
+          "image": "",
+          "footer": "ha ha idiot get warned",
+          "timestamp": "BOOL_TRUE@@",
+          "savetovariable": "person has been warned",
+          "savetovariabletype": "temp"
+        },
+        {
+          "name": "check if has warn role",
+          "category": "User Action",
+          "type": "Check If User Has Role",
+          "trueActions": [
+            {
+              "name": "does user have warn 2",
+              "category": "User Action",
+              "type": "Check If User Has Role",
+              "trueActions": [
+                {
+                  "name": "give warn 3 role",
+                  "category": "User Action",
+                  "type": "Add Role to User",
+                  "messageActionRows": [],
+                  "user": "${tempVars.warned user.id}",
+                  "rolename": "well now you die"
+                },
+                {
+                  "name": "haha nerd get kicked",
+                  "category": "User Action",
+                  "type": "Kick User",
+                  "messageActionRows": [],
+                  "user": "${tempVars.warned user.id}",
+                  "reason": "warn 3 looser"
+                }
+              ],
+              "falseActions": [
+                {
+                  "name": "give warn 2",
+                  "category": "User Action",
+                  "type": "Add Role to User",
+                  "messageActionRows": [],
+                  "user": "${tempVars.warned user.id}",
+                  "rolename": "Warn 2"
+                }
+              ],
+              "messageActionRows": [],
+              "user": "${tempVars.warned user.id}",
+              "role": "Warn 2"
+            }
+          ],
+          "falseActions": [
+            {
+              "name": "give warn 1",
+              "category": "User Action",
+              "type": "Add Role to User",
+              "messageActionRows": [],
+              "user": "${tempVars.warned user.id}",
+              "rolename": "Warn 1"
+            }
+          ],
+          "messageActionRows": [],
+          "user": "${tempVars.warned user.id}",
+          "role": "Warn 1"
+        }
+      ]
+    },
+    {
+      "name": "kick",
+      "perms": [
+        "head admin",
+        "owner",
+        "co-owner"
+      ],
+      "actions": [
+        {
+          "name": "get kick user",
+          "category": "Variable",
+          "type": "Get Mentioned User",
+          "messageActionRows": [],
+          "varname": "kicked user",
+          "vartype": "User",
+          "savevartype": "temp"
+        },
+        {
+          "name": "cool",
+          "category": "Variable",
+          "type": "Store Value in Variable",
+          "messageActionRows": [],
+          "varname": "kick reason",
+          "vartype": "Text",
+          "savevartype": "temp",
+          "param": "1+"
+        },
+        {
+          "name": "kick them ha",
+          "category": "User Action",
+          "type": "Kick User",
+          "messageActionRows": [],
+          "user": "${tempVars.kicked user.id}",
+          "reason": "${tempVars.kick reason}"
+        },
+        {
+          "name": "adfadfad",
+          "category": "User Data",
+          "type": "Edit User Data",
+          "messageActionRows": [],
+          "user": "${tempVars.kicked user.id}",
+          "field": "kicks",
+          "oper": "+",
+          "value": "1"
+        },
+        {
+          "name": "kick logs",
+          "category": "Message",
+          "type": "Send Embed",
+          "messageActionRows": [],
+          "channelname": "audit-logs",
+          "color": "0088FF",
+          "title": "user was kicked",
+          "url": "",
+          "authorname": "bot cool yes",
+          "authorimageurl": "${dbsVars.CommandAuthor.user.avatarURL}",
+          "authorlink": "",
+          "description": "<@${tempVars.kicked user.id}> was kicked by <@${dbsVars.CommandAuthor.id}> and the reason was ${tempVars.kick reason}",
+          "thumbnail": "${tempVars.kicked user.user.avatarURL}",
+          "image": "",
+          "footer": "ha ha looser got kicked nerd lol",
+          "timestamp": "BOOL_TRUE@@",
+          "savetovariable": "asdads",
+          "savetovariabletype": "temp"
+        },
+        {
+          "name": "has been kicked",
+          "category": "Message",
+          "type": "Send Embed",
+          "messageActionRows": [],
+          "channelname": "${dbsVars.CommandChannel.id}",
+          "color": "00A6FF",
+          "title": "ha ha nerd get kick lols",
+          "url": "",
+          "authorname": "epical bot dude",
+          "authorimageurl": "<@${dbsVars.CommandAuthor.id}>",
+          "authorlink": "",
+          "description": "<@${tempVars.kicked user.id}> was kicked by <@${dbsVars.CommandAuthor.id}>",
+          "thumbnail": "${tempVars.kicked user.user.avatarURL}",
+          "image": "",
+          "footer": "lol u bad so get kick in face ",
+          "timestamp": "BOOL_TRUE@@",
+          "savetovariable": "efesf",
+          "savetovariabletype": "temp"
+        }
+      ]
+    },
+    {
+      "name": "ban",
+      "perms": [
+        "owner",
+        "co-owner",
+        "head admin"
+      ],
+      "actions": [
+        {
+          "name": "get banned user",
+          "category": "Variable",
+          "type": "Get Mentioned User",
+          "messageActionRows": [],
+          "varname": "banned user",
+          "vartype": "User",
+          "savevartype": "temp"
+        },
+        {
+          "name": "asdasdfg",
+          "category": "Variable",
+          "type": "Store Value in Variable",
+          "messageActionRows": [],
+          "varname": "ban reason",
+          "vartype": "Text",
+          "savevartype": "temp",
+          "param": "1+"
+        },
+        {
+          "name": "ban user",
+          "category": "User Action",
+          "type": "Ban User",
+          "messageActionRows": [],
+          "user": "${tempVars.banned user.id}",
+          "reason": "${tempVars.ban reason}",
+          "days": ""
+        },
+        {
+          "name": "asasdfasdf",
+          "category": "User Data",
+          "type": "Edit User Data",
+          "messageActionRows": [],
+          "user": "${tempVars.banned user.id}",
+          "field": "bans",
+          "oper": "+",
+          "value": "1"
+        },
+        {
+          "name": "ban logs",
+          "category": "Message",
+          "type": "Send Embed",
+          "messageActionRows": [],
+          "channelname": "audit-logs",
+          "color": "45AD15",
+          "title": "user was banned",
+          "url": "",
+          "authorname": "ha ha funny ban logs",
+          "authorimageurl": "${dbsVars.CommandAuthor.user.avatarURL}",
+          "authorlink": "",
+          "description": "Banned: <@${tempVars.banned user.id}> \nBanned by: <@${dbsVars.CommandAuthor.id}>\nReason: ${tempVars.ban reason}\n",
+          "thumbnail": "${tempVars.banned user.user.avatarURL}",
+          "image": "",
+          "footer": "they got banned cuz they funny lol silly willy",
+          "timestamp": "BOOL_TRUE@@",
+          "savetovariable": "adfadf",
+          "savetovariabletype": "temp"
+        },
+        {
+          "name": "ha ha user was banned",
+          "category": "Message",
+          "type": "Send Embed",
+          "messageActionRows": [],
+          "channelname": "${dbsVars.CommandChannel.id}",
+          "color": "CFC634",
+          "title": "ha ha silly person was banned",
+          "url": "",
+          "authorname": "hee hee hee haa funny person got banned lol",
+          "authorimageurl": "${dbsVars.CommandAuthor.user.avatarURL}",
+          "authorlink": "",
+          "description": "Banned: <@${tempVars.banned user.id}>\nBanned by: <@${dbsVars.CommandAuthor.id}>",
+          "thumbnail": "${tempVars.banned user.user.avatarURL}",
+          "image": "",
+          "footer": "ha ha they suck cuz they got in trouble and stuff ha ha loosers",
+          "timestamp": "BOOL_TRUE@@",
+          "savetovariable": "sadfasfsf",
+          "savetovariabletype": "temp"
+        }
+      ]
+    },
+    {
+      "name": "mute",
+      "perms": [
+        "owner",
+        "co-owner",
+        "head admin"
+      ],
+      "actions": [
+        {
+          "name": "get muted user",
+          "category": "Variable",
+          "type": "Get Mentioned User",
+          "messageActionRows": [],
+          "varname": "muted user",
+          "vartype": "User",
+          "savevartype": "temp"
+        },
+        {
+          "name": "reason thuin",
+          "category": "Variable",
+          "type": "Store Value in Variable",
+          "messageActionRows": [],
+          "varname": "reasonmuted",
+          "vartype": "Number",
+          "savevartype": "temp",
+          "param": "2+"
+        },
+        {
+          "name": "mute them_1_1",
+          "category": "User Action",
+          "type": "Add Role to User",
+          "messageActionRows": [],
+          "user": "${tempVars.muted user.id}",
+          "rolename": "muted"
+        },
+        {
+          "name": "un member them_1_1",
+          "category": "User Action",
+          "type": "Remove Role From User",
+          "messageActionRows": [],
+          "user": "${tempVars.muted user.id}",
+          "rolename": "Member",
+          "reason": "d"
+        },
+        {
+          "name": "asdasd",
+          "category": "User Data",
+          "type": "Edit User Data",
+          "messageActionRows": [],
+          "user": "${tempVars.muted user.id}",
+          "field": "mutes",
+          "oper": "+",
+          "value": "1"
+        },
+        {
+          "name": "mzsdfasfd",
+          "category": "Message",
+          "type": "Send Embed",
+          "messageActionRows": [],
+          "channelname": "audit-logs",
+          "color": "3DD8FF",
+          "title": "hey guess what a dumb person was muted",
+          "url": "",
+          "authorname": "they so dumb they got themselves muted ",
+          "authorimageurl": "${dbsVars.CommandAuthor.user.avatarURL}",
+          "authorlink": "",
+          "description": "Muted:<@${tempVars.muted user.id}>\nMuted by: <@${dbsVars.CommandAuthor.id}>\nReason: ${tempVars.reasonmuted}",
+          "thumbnail": "${tempVars.muted user.user.avatarURL}",
+          "image": "",
+          "footer": "dummy",
+          "timestamp": "BOOL_TRUE@@",
+          "savetovariable": "",
+          "savetovariabletype": "temp"
+        },
+        {
+          "name": "ha ha nub u mueted",
+          "category": "Message",
+          "type": "Send Embed",
+          "messageActionRows": [],
+          "channelname": "${dbsVars.CommandChannel.id}",
+          "color": "A41CFF",
+          "title": "get muted lol",
+          "url": "",
+          "authorname": "haha you were muted noob ",
+          "authorimageurl": "${dbsVars.CommandAuthor.user.avatarURL}",
+          "authorlink": "",
+          "description": "Muted:<@${tempVars.muted user.id}>\nMuted by:<@${dbsVars.CommandAuthor.id}>",
+          "thumbnail": "${tempVars.muted user.user.avatarURL}",
+          "image": "",
+          "footer": "haha funny was muted lol",
+          "timestamp": "BOOL_TRUE@@",
+          "savetovariable": "",
+          "savetovariabletype": "temp"
+        }
+      ]
+    },
+    {
+      "name": "unmute",
+      "actions": [
+        {
+          "name": "get muted user_1",
+          "category": "Variable",
+          "type": "Get Mentioned User",
+          "messageActionRows": [],
+          "varname": "unmuted user",
+          "vartype": "User",
+          "savevartype": "temp"
+        },
+        {
+          "name": "mute them_1",
+          "category": "User Action",
+          "type": "Add Role to User",
+          "messageActionRows": [],
+          "user": "${tempVars.unmuted user.id}",
+          "rolename": "Member"
+        },
+        {
+          "name": "un member them_1",
+          "category": "User Action",
+          "type": "Remove Role From User",
+          "messageActionRows": [],
+          "user": "${tempVars.muted user.id}",
+          "rolename": "muted",
+          "reason": "d"
+        },
+        {
+          "name": "asdasd_1",
+          "category": "User Data",
+          "type": "Edit User Data",
+          "messageActionRows": [],
+          "user": "${tempVars.unmuted user.id}",
+          "field": "unmutes",
+          "oper": "+",
+          "value": "1"
+        },
+        {
+          "name": "mzsdfasfd_1",
+          "category": "Message",
+          "type": "Send Embed",
+          "messageActionRows": [],
+          "channelname": "audit-logs",
+          "color": "3DD8FF",
+          "title": "hey look someone was unmuted",
+          "url": "",
+          "authorname": "they ok now I guess",
+          "authorimageurl": "${dbsVars.CommandAuthor.user.avatarURL}",
+          "authorlink": "",
+          "description": "unmuted:<@${tempVars.unmuted user.id}>\nunmuted by: <@${dbsVars.CommandAuthor.id}>\n",
+          "thumbnail": "${tempVars.unmuted user.user.avatarURL}",
+          "image": "",
+          "footer": "yay they can talk again",
+          "timestamp": "BOOL_TRUE@@",
+          "savetovariable": "",
+          "savetovariabletype": "temp"
+        },
+        {
+          "name": "mzsdfasfd_1_1",
+          "category": "Message",
+          "type": "Send Embed",
+          "messageActionRows": [],
+          "channelname": "${dbsVars.CommandChannel.id}",
+          "color": "3DD8FF",
+          "title": "hey look someone was unmuted",
+          "url": "",
+          "authorname": "they ok now I guess",
+          "authorimageurl": "${dbsVars.CommandAuthor.user.avatarURL}",
+          "authorlink": "",
+          "description": "unmuted:<@${tempVars.unmuted user.id}>\nunmuted by: <@${dbsVars.CommandAuthor.id}>\n",
+          "thumbnail": "${tempVars.unmuted user.user.avatarURL}",
+          "image": "",
+          "footer": "yay they can talk again",
+          "timestamp": "BOOL_TRUE@@",
+          "savetovariable": "",
+          "savetovariabletype": "temp"
+        }
+      ]
+    },
+    {
+      "name": "ticket",
+      "actions": [
+        {
+          "name": "gfhgfuj",
+          "category": "Channel Action",
+          "type": "Create Channel",
+          "messageActionRows": [],
+          "channelname": "ticket_${dbsVars.CommandAuthor.user.tag}",
+          "chancategory": "tickets",
+          "reason": "",
+          "channeltype": "Text",
+          "savetovariable": "new_ticket_channel",
+          "savetovariabletype": "temp"
+        },
+        {
+          "name": "huyghjg",
+          "category": "Channel Action",
+          "type": "Update Channel Permissions",
+          "messageActionRows": [],
+          "channelname": "${tempVars.new_ticket_channel.id}",
+          "permid": "${dbsVars.guild.id}",
+          "permissions": [
+            "VIEW_CHANNEL",
+            "SEND_MESSAGES"
+          ],
+          "allow": "Deny"
+        },
+        {
+          "name": "vghjgjh",
+          "category": "Channel Action",
+          "type": "Update Channel Permissions",
+          "messageActionRows": [],
+          "channelname": "${tempVars.new_ticket_channel.id}",
+          "permid": "${dbsVars.CommandAuthor.id}",
+          "permissions": [
+            "VIEW_CHANNEL",
+            "SEND_MESSAGES"
+          ],
+          "allow": "Allow"
+        },
+        {
+          "name": "fsfdfdfgg",
+          "category": "Message",
+          "type": "Send Embed",
+          "messageActionRows": [
+            {
+              "rowtype": "button",
+              "buttons": [
+                {
+                  "label": "Close Ticket",
+                  "customid": "close_ticket",
+                  "style": "SECONDARY",
+                  "emoji": "",
+                  "URL": "",
+                  "ephemeral": false
+                }
+              ]
+            }
+          ],
+          "channelname": "${tempVars.new_ticket_channel.id}",
+          "color": "130DD4",
+          "title": "Ticket/Report",
+          "url": "",
+          "authorname": "",
+          "authorimageurl": "",
+          "authorlink": "",
+          "description": "Thank you for opening a ticket. Please let us know if there is an issure or someone bothering you! To close a ticket  use the nb!close to close your ticket or hit the button below (beta)",
+          "thumbnail": "${dbsVars.CommandAuthor.user.avatarURL}",
+          "image": "",
+          "footer": "",
+          "timestamp": "false",
+          "savetovariable": "",
+          "savetovariabletype": "temp"
+        }
+      ]
+    },
+    {
+      "name": "close",
+      "actions": [
+        {
+          "name": "gfsdfgsdfg",
+          "category": "Channel Action",
+          "type": "Delete Channel",
+          "messageActionRows": [],
+          "channelname": "${tempVars.new_ticket_channel.id}",
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "name": "verify",
+      "perms": [],
+      "actions": [
+        {
+          "name": "sdfsdf",
+          "category": "Message",
+          "type": "Send Embed",
+          "messageActionRows": [],
+          "channelname": "verify",
+          "color": "10E01A",
+          "title": "Verify",
+          "url": "",
+          "authorname": "epic verify system am I right?",
+          "authorimageurl": "",
+          "authorlink": "",
+          "description": "Verify using the checkmark below!",
+          "thumbnail": "",
+          "image": "",
+          "footer": "adsasddsadasd",
+          "timestamp": "false",
+          "savetovariable": "verifymessage",
+          "savetovariabletype": "temp"
+        },
+        {
+          "name": "xcxvxvc",
+          "category": "Reaction",
+          "type": "Add Reaction Listener",
+          "reactionActions": {
+            "✅": [
+              {
+                "name": "xxvxfsfsfg",
+                "category": "User Action",
+                "type": "Add Role to User",
+                "messageActionRows": [],
+                "user": "${tempVars.reactionuser.id}",
+                "rolename": "Member"
+              }
+            ]
+          },
+          "messageActionRows": [],
+          "message": "${tempVars.verifymessage.id}",
+          "duration": "0",
+          "reactionemoji": "reactionemoji",
+          "reactionuser": "reactionuser",
+          "react": "BOOL_TRUE@@"
+        }
+      ]
+    }
+  ]
+}

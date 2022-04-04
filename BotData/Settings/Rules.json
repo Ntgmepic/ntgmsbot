@@ -1,0 +1,20 @@
+{
+  "enabled": true,
+  "obj": {
+    "warnEnabled": true,
+    "kickEnabled": true,
+    "banEnabled": false,
+    "maxInterval": 2000,
+    "maxDuplicatesInterval": 60000,
+    "warnMessage": "{@user} This is A warning 2 of them will get you Kicked 3 will get you banned.",
+    "kickMessage": "{user_tag} This is your Final Warning.",
+    "banMessage": "{user_tag} You have been banned from the server.",
+    "warnThreshold": 3,
+    "kickThreshold": 5,
+    "banThreshold": 7,
+    "maxDuplicatesWarning": 4,
+    "maxDuplicatesKick": 7,
+    "maxDuplicatesBan": 12,
+    "debug": true
+  }
+}
